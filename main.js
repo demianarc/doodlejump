@@ -115,14 +115,8 @@ function Platform() {
   // Function to draw it
   this.draw = function() {
     try {
-      if (this.type == 1) this.cy = 0;
-      else if (this.type == 2) this.cy = 61;
-      else if (this.type == 3 && this.flag === 0) this.cy = 31;
-      else if (this.type == 3 && this.flag == 1) this.cy = 1000;
-      else if (this.type == 4 && this.state === 0) this.cy = 90;
-      else if (this.type == 4 && this.state == 1) this.cy = 1000;
-
-      ctx.drawImage(image, this.cx, this.cy, this.cwidth, this.cheight, this.x, this.y, this.width, this.height);
+      ctx.fillStyle = "white"; // Set platform color to white
+      ctx.fillRect(this.x, this.y, this.width, this.height);
     } catch (e) {}
   };
 
@@ -156,6 +150,7 @@ function Platform() {
 for (var i = 0; i < platformCount; i++) {
   platforms.push(new Platform());
 }
+
 
 // Broken platform object
 var Platform_broken_substitute = function() {
