@@ -115,7 +115,11 @@ function Platform() {
   // Function to draw it
   this.draw = function() {
     try {
-      ctx.fillStyle = "white"; // Set platform color to white
+      // Set platform color to a nice gradient
+      var gradient = ctx.createLinearGradient(this.x, this.y, this.x + this.width, this.y + this.height);
+      gradient.addColorStop(0, 'purple');
+      gradient.addColorStop(1, 'cyan');
+      ctx.fillStyle = gradient;
       ctx.fillRect(this.x, this.y, this.width, this.height);
     } catch (e) {}
   };
@@ -150,6 +154,7 @@ function Platform() {
 for (var i = 0; i < platformCount; i++) {
   platforms.push(new Platform());
 }
+
 
 
 // Broken platform object
