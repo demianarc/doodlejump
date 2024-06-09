@@ -2,12 +2,13 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>PACMOON Jump</title>
+    <title>HTML5 Doodle Jump</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <script src="/assets/js/prefixfree.min.js"></script>
   </head>
   <body>
+    <div id="stars"></div>
     <div class="container">
       <canvas id="canvas">
         Aww, your browser doesn't support HTML5!
@@ -15,7 +16,8 @@
 
       <div id="mainMenu">
         <h1>PACMOON Jump</h1>
-        <h3>...by <a href="https://x.com/demian_eth" target="_blank">Demian</a></h3>
+        <h3>using HTML5,</h3>
+        <h3>...by Demian</h3>
 
         <p class="info">
           use
@@ -28,12 +30,10 @@
 
       <div id="gameOverMenu">
         <h1>game over!</h1>
-        <br>
         <h3 id="go_score">you scored 0 points</h3>
 
         <a class="button" href="javascript:reset()">Restart</a>
         <a id="tweetBtn" target="_blank" class="button tweet" href="#">Tweet score</a>
-
         <a id="fbBtn" target="_blank" class="button fb" href="#">Post on FB</a>
       </div>
 
@@ -47,5 +47,20 @@
     </div>
 
     <script src="main.js"></script>
+    <script>
+      // JavaScript to create stars
+      function createStars() {
+        const stars = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+          const star = document.createElement('div');
+          star.classList.add('star');
+          star.style.left = `${Math.random() * 100}%`;
+          star.style.top = `${Math.random() * 100}%`;
+          star.style.animationDelay = `${Math.random() * 2}s`;
+          stars.appendChild(star);
+        }
+      }
+      createStars();
+    </script>
   </body>
 </html>
