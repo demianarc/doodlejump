@@ -15,7 +15,7 @@ var width = 422,
 canvas.width = width;
 canvas.height = height;
 
-//Variables for game
+// Variables for game
 var platforms = [],
   image = document.getElementById("sprite"),
   player, platformCount = 10,
@@ -26,12 +26,12 @@ var platforms = [],
   menuloop, broken = 0,
   dir, score = 0, firstRun = true;
 
-//Base object
+// Base object
 var Base = function() {
   this.height = 5;
   this.width = width;
 
-  //Sprite clipping
+  // Sprite clipping
   this.cx = 0;
   this.cy = 614;
   this.cwidth = 100;
@@ -51,7 +51,7 @@ var Base = function() {
 
 var base = new Base();
 
-//Player object
+// Player object
 var Player = function() {
   this.vy = 11;
   this.vx = 0;
@@ -61,27 +61,22 @@ var Player = function() {
   this.isDead = false;
 
   this.width = 55;
-  this.height = 40;
+  this.height = 55;
 
-  //Sprite clipping
+  // Sprite clipping
   this.cx = 0;
   this.cy = 0;
-  this.cwidth = 110;
-  this.cheight = 80;
+  this.cwidth = 250;
+  this.cheight = 250;
 
   this.dir = "left";
 
   this.x = width / 2 - this.width / 2;
   this.y = height;
 
-  //Function to draw it
+  // Function to draw it
   this.draw = function() {
     try {
-      if (this.dir == "right") this.cy = 121;
-      else if (this.dir == "left") this.cy = 201;
-      else if (this.dir == "right_land") this.cy = 289;
-      else if (this.dir == "left_land") this.cy = 371;
-
       ctx.drawImage(image, this.cx, this.cy, this.cwidth, this.cheight, this.x, this.y, this.width, this.height);
     } catch (e) {}
   };
@@ -98,8 +93,7 @@ var Player = function() {
 
 player = new Player();
 
-//Platform class
-
+// Platform class
 function Platform() {
   this.width = 70;
   this.height = 17;
@@ -112,16 +106,15 @@ function Platform() {
   this.flag = 0;
   this.state = 0;
 
-  //Sprite clipping
+  // Sprite clipping
   this.cx = 0;
   this.cy = 0;
   this.cwidth = 105;
   this.cheight = 31;
 
-  //Function to draw it
+  // Function to draw it
   this.draw = function() {
     try {
-
       if (this.type == 1) this.cy = 0;
       else if (this.type == 2) this.cy = 61;
       else if (this.type == 3 && this.flag === 0) this.cy = 31;
@@ -133,12 +126,12 @@ function Platform() {
     } catch (e) {}
   };
 
-  //Platform types
-  //1: Normal
-  //2: Moving
-  //3: Breakable (Go through)
-  //4: Vanishable 
-  //Setting the probability of which type of platforms should be shown at what score
+  // Platform types
+  // 1: Normal
+  // 2: Moving
+  // 3: Breakable (Go through)
+  // 4: Vanishable 
+  // Setting the probability of which type of platforms should be shown at what score
   if (score >= 5000) this.types = [2, 3, 3, 3, 4, 4, 4, 4];
   else if (score >= 2000 && score < 5000) this.types = [2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4];
   else if (score >= 1000 && score < 2000) this.types = [2, 2, 2, 3, 3, 3, 3, 3];
@@ -148,7 +141,7 @@ function Platform() {
 
   this.type = this.types[Math.floor(Math.random() * this.types.length)];
 
-  //We can't have two consecutive breakable platforms otherwise it will be impossible to reach another platform sometimes!
+  // We can't have two consecutive breakable platforms otherwise it will be impossible to reach another platform sometimes!
   if (this.type == 3 && broken < 1) {
     broken++;
   } else if (this.type == 3 && broken >= 1) {
@@ -164,7 +157,7 @@ for (var i = 0; i < platformCount; i++) {
   platforms.push(new Platform());
 }
 
-//Broken platform object
+// Broken platform object
 var Platform_broken_substitute = function() {
   this.height = 30;
   this.width = 70;
@@ -172,7 +165,7 @@ var Platform_broken_substitute = function() {
   this.x = 0;
   this.y = 0;
 
-  //Sprite clipping
+  // Sprite clipping
   this.cx = 0;
   this.cy = 554;
   this.cwidth = 105;
@@ -190,7 +183,7 @@ var Platform_broken_substitute = function() {
 
 var platform_broken_substitute = new Platform_broken_substitute();
 
-//Spring Class
+// Spring Class
 var spring = function() {
   this.x = 0;
   this.y = 0;
@@ -198,7 +191,7 @@ var spring = function() {
   this.width = 26;
   this.height = 30;
 
-  //Sprite clipping
+  // Sprite clipping
   this.cx = 0;
   this.cy = 0;
   this.cwidth = 45;
@@ -219,20 +212,18 @@ var spring = function() {
 var Spring = new spring();
 
 function init() {
-  //Variables for the game
+  // Variables for the game
   var dir = "left",
     jumpCount = 0;
   
   firstRun = false;
 
-  //Function for clearing canvas in each consecutive frame
-
+  // Function for clearing canvas in each consecutive frame
   function paintCanvas() {
     ctx.clearRect(0, 0, width, height);
   }
 
-  //Player related calculations and functions
-
+  // Player related calculations and functions
   function playerCalc() {
     if (dir == "left") {
       player.dir = "left";
@@ -242,7 +233,7 @@ function init() {
       if (player.vy < -7 && player.vy > -15) player.dir = "right_land";
     }
 
-    //Adding keyboard controls
+    // Adding keyboard controls
     document.onkeydown = function(e) {
       var key = e.keyCode;
       
@@ -274,7 +265,7 @@ function init() {
       }
     };
 
-    //Accelerations produces when the user hold the keys
+    // Accelerations produces when the user hold the keys
     if (player.isMovingLeft === true) {
       player.x += player.vx;
       player.vx -= 0.15;
@@ -297,28 +288,25 @@ function init() {
     else if(player.vx < -8)
       player.vx = -8;
 
-    //console.log(player.vx);
-    
-    //Jump the player when it hits the base
+    // Jump the player when it hits the base
     if ((player.y + player.height) > base.y && base.y < height) player.jump();
 
-    //Gameover if it hits the bottom 
+    // Gameover if it hits the bottom 
     if (base.y > height && (player.y + player.height) > height && player.isDead != "lol") player.isDead = true;
 
-    //Make the player move through walls
+    // Make the player move through walls
     if (player.x > width) player.x = 0 - player.width;
     else if (player.x < 0 - player.width) player.x = width;
 
-    //Movement of player affected by gravity
+    // Movement of player affected by gravity
     if (player.y >= (height / 2) - (player.height / 2)) {
       player.y += player.vy;
       player.vy += gravity;
     }
 
-    //When the player reaches half height, move the platforms to create the illusion of scrolling and recreate the platforms that are out of viewport...
+    // When the player reaches half height, move the platforms to create the illusion of scrolling and recreate the platforms that are out of viewport...
     else {
       platforms.forEach(function(p, i) {
-
         if (player.vy < 0) {
           p.y -= player.vy;
         }
@@ -327,7 +315,6 @@ function init() {
           platforms[i] = new Platform();
           platforms[i].y = p.y - height;
         }
-
       });
 
       base.y -= player.vy;
@@ -341,14 +328,13 @@ function init() {
       score++;
     }
 
-    //Make the player jump when it collides with platforms
+    // Make the player jump when it collides with platforms
     collides();
 
     if (player.isDead === true) gameOver();
   }
 
-  //Spring algorithms
-
+  // Spring algorithms
   function springCalc() {
     var s = Spring;
     var p = platforms[0];
@@ -366,15 +352,13 @@ function init() {
     }
   }
 
-  //Platform's horizontal movement (and falling) algo
-
+  // Platform's horizontal movement (and falling) algo
   function platformCalc() {
     var subs = platform_broken_substitute;
 
     platforms.forEach(function(p, i) {
       if (p.type == 2) {
         if (p.x < 0 || p.x + p.width > width) p.vx *= -1;
-
         p.x += p.vx;
       }
 
@@ -382,7 +366,6 @@ function init() {
         subs.x = p.x;
         subs.y = p.y;
         subs.appearance = true;
-
         jumpCount++;
       }
 
@@ -398,10 +381,9 @@ function init() {
   }
 
   function collides() {
-    //Platforms
+    // Platforms
     platforms.forEach(function(p, i) {
       if (player.vy > 0 && p.state === 0 && (player.x + 15 < p.x + p.width) && (player.x + player.width - 15 > p.x) && (player.y + player.height > p.y) && (player.y + player.height < p.y + p.height)) {
-
         if (p.type == 3 && p.flag === 0) {
           p.flag = 1;
           jumpCount = 0;
@@ -416,13 +398,12 @@ function init() {
       }
     });
 
-    //Springs
+    // Springs
     var s = Spring;
     if (player.vy > 0 && (s.state === 0) && (player.x + 15 < s.x + s.width) && (player.x + player.width - 15 > s.x) && (player.y + player.height > s.y) && (player.y + player.height < s.y + s.height)) {
       s.state = 1;
       player.jumpHigh();
     }
-
   }
 
   function updateScore() {
@@ -438,8 +419,7 @@ function init() {
     if(player.y > height/2 && flag === 0) {
       player.y -= 8;
       player.vy = 0;
-    } 
-    else if(player.y < height / 2) flag = 1;
+    } else if(player.y < height / 2) flag = 1;
     else if(player.y + player.height > height) {
       showGoMenu();
       hideScore();
@@ -450,23 +430,17 @@ function init() {
     
       var facebook = document.getElementById("fbBtn");
       facebook.href='http://facebook.com/sharer.php?s=100&p[url]=http://cssdeck.com/labs/html5-doodle-jump/8&p[title]=I just scored ' +score+ ' points in the HTML5 Doodle Jump game!&p[summary]=Can you beat me in this awesome recreation of Doodle Jump created in HTML5?';
-
     }
   }
 
-  //Function to update everything
-
+  // Function to update everything
   function update() {
     paintCanvas();
     platformCalc();
-
     springCalc();
-
     playerCalc();
     player.draw();
-
     base.draw();
-
     updateScore();
   }
 
@@ -502,13 +476,13 @@ function reset() {
   }
 }
 
-//Hides the menu
+// Hides the menu
 function hideMenu() {
   var menu = document.getElementById("mainMenu");
   menu.style.zIndex = -1;
 }
 
-//Shows the game over menu
+// Shows the game over menu
 function showGoMenu() {
   var menu = document.getElementById("gameOverMenu");
   menu.style.zIndex = 1;
@@ -518,20 +492,20 @@ function showGoMenu() {
   scoreText.innerHTML = "You scored " + score + " points!";
 }
 
-//Hides the game over menu
+// Hides the game over menu
 function hideGoMenu() {
   var menu = document.getElementById("gameOverMenu");
   menu.style.zIndex = -1;
   menu.style.visibility = "hidden";
 }
 
-//Show ScoreBoard
+// Show ScoreBoard
 function showScore() {
   var menu = document.getElementById("scoreBoard");
   menu.style.zIndex = 1;
 }
 
-//Hide ScoreBoard
+// Hide ScoreBoard
 function hideScore() {
   var menu = document.getElementById("scoreBoard");
   menu.style.zIndex = -1;
@@ -556,7 +530,7 @@ function playerJump() {
     if (player.vy < -7 && player.vy > -15) player.dir = "right_land";
   }
 
-  //Adding keyboard controls
+  // Adding keyboard controls
   document.onkeydown = function(e) {
     var key = e.keyCode;
 
@@ -590,7 +564,7 @@ function playerJump() {
     }
   };
 
-  //Accelerations produces when the user hold the keys
+  // Accelerations produces when the user hold the keys
   if (player.isMovingLeft === true) {
     player.x += player.vx;
     player.vx -= 0.15;
@@ -607,10 +581,10 @@ function playerJump() {
     if (player.vx > 0) player.vx -= 0.1;
   }
 
-  //Jump the player when it hits the base
+  // Jump the player when it hits the base
   if ((player.y + player.height) > base.y && base.y < height) player.jump();
 
-  //Make the player move through walls
+  // Make the player move through walls
   if (player.x > width) player.x = 0 - player.width;
   else if (player.x < 0 - player.width) player.x = width;
 
